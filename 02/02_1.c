@@ -1,34 +1,65 @@
-//REGEXP. expression below matches 2 or more, how make it match exactly 2??!
 #include <stdio.h>
 #include <regex.h>
+#include <string.h>
 
+// regex match?
 int match(const char *string, const char *pattern)
 {
     regex_t re;
     if (regcomp(&re, pattern, REG_EXTENDED|REG_NOSUB) != 0) return 0;
     int status = regexec(&re, string, 0, NULL, 0);
     regfree(&re);
-    printf("%i\n",status);
     if (status != 0) return 0;
     return 1;
 }
 
 int main(void)
 {
-    for(int i=0; i<100; i++)
+    int tw=0; //counter for twice
+    int th=0; //counter for thrice
+    for(int i=0; i<251; i++)
     {
         char s[BUFSIZ];
         if (fgets(s, 20, stdin) != NULL) //loop through lines and test regex
         {
-    //    const char* s1 = "abcdefghi";
-    //    const char* s2 = "abgcdgefghj";
-        //    char* re = "(.).*\\1.*\\1";
-        const char* re = "(j)(.*?\\1){1}";
-            printf("%s matches %s? %s\n", s, re, match(s, re) ? "true" : "false");
+            for(int j=97; j < 123; j++) //loop through alphabet
+            {
+                char re[15] = "(.)(.*?\\1){1}";
+                re[1] = (char)j;
+                if(match(s,re)==1)
+                {
+                    strcpy(re,"(.)(.*?\\1){2}");
+                    re[1] = (char)j;
+                    if(match(s,re)!=1)
+                    {
+                        tw++; //2 repeats but not 3 = exactly 2
+                        break;
+                    }
+                }
+            }
+            for(int j=97; j < 123; j++)
+            {
+                char re[15] = "(.)(.*?\\1){2}";
+                re[1] = (char)j;
+                if(match(s,re)==1)
+                {
+                    strcpy(re,"(.)(.*?\\1){3}");
+                    re[1] = (char)j;
+                    if(match(s,re)!=1)
+                    {
+                        th++; //3 repeats but not 4 = exactly 3
+                        break;
+                    }
+                }
+            }
+
+        }
+        else
+        {
+            return 0;
         }
     }
+    printf("Part 1: %i\n",tw*th);
 }
 
-/* regexp WIP
-(.+?).*?\1(?=.*\1)
-matches 3 or more of any character by using lookahead */
+// this is returning 384, which is too low.
