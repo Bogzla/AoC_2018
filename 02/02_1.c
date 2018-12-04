@@ -17,10 +17,10 @@ int main(void)
 {
     int tw=0; //counter for twice
     int th=0; //counter for thrice
-    for(int i=0; i<251; i++)
+    for(int i=0; i<250; i++)
     {
         char s[BUFSIZ];
-        if (fgets(s, 20, stdin) != NULL) //loop through lines and test regex
+        if (fgets(s, 28, stdin) != NULL) //loop through lines and test regex
         {
             for(int j=97; j < 123; j++) //loop through alphabet
             {
@@ -61,5 +61,3 @@ int main(void)
     }
     printf("Part 1: %i\n",tw*th);
 }
-
-// this is returning 384, which is too low.
