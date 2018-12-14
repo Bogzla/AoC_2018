@@ -1,4 +1,4 @@
-//ToDo: figure out why they're not cornering properly
+//ToDo: nest switches to break properly at junctions
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,7 +25,7 @@ int main(void)
             for(int j=0;j<150;j++)
             {
                 char a = s[j];
-//                printf("%c",a);
+                printf("%c",a);
                 switch(a)
                 {
                     case('-'):
@@ -79,7 +79,7 @@ int main(void)
 
 
             }
-//            printf("\n");
+            printf("\n");
         }
     }
     while(1)
@@ -120,16 +120,18 @@ int main(void)
                                         cart[a][0]=0;
                                         cart[a][1]=-1;
                                         break;
-                                }
-                                switch(cart[a][1])
-                                {
-                                    case(-1): //going up, switch to right
-                                        cart[a][0]=1;
-                                        cart[a][1]=0;
-                                        break;
-                                    case(1): //going down, switch to left
-                                        cart[a][0]=-1;
-                                        cart[a][1]=0;
+                                    case(0): //neither of the above
+                                        switch(cart[a][1])
+                                        {
+                                            case(-1): //going up, switch to right
+                                                cart[a][0]=1;
+                                                cart[a][1]=0;
+                                                break;
+                                            case(1): //going down, switch to left
+                                                cart[a][0]=-1;
+                                                cart[a][1]=0;
+                                                break;
+                                        }
                                         break;
                                 }
                                 break;
@@ -144,16 +146,19 @@ int main(void)
                                         cart[a][0]=0;
                                         cart[a][1]=1;
                                         break;
-                                }
-                                switch(cart[a][1])
-                                {
-                                    case(-1): //going up, switch to left
-                                        cart[a][0]=-1;
-                                        cart[a][1]=0;
-                                        break;
-                                    case(1): //going down, switch to right
-                                        cart[a][0]=1;
-                                        cart[a][1]=0;
+                                    case(0): //neither of the above
+
+                                        switch(cart[a][1])
+                                        {
+                                            case(-1): //going up, switch to left
+                                                cart[a][0]=-1;
+                                                cart[a][1]=0;
+                                                break;
+                                            case(1): //going down, switch to right
+                                                cart[a][0]=1;
+                                                cart[a][1]=0;
+                                                break;
+                                        }
                                         break;
                                 }
                                 break;
