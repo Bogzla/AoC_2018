@@ -1,4 +1,4 @@
-//ToDo: nest switches to break properly at junctions
+//Used 2 values to track directuion of carts. Made predicting next position easy but direction changes a ball-ache
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -94,10 +94,10 @@ int main(void)
                     track2[j][i] = 0; //remove from current
                     int jj=j+cart[a][0]; //this is new location
                     int ii=i+cart[a][1];
-                    printf("%i: %i,%i -> %i,%i\n",a,j,i,jj,ii);
+//debug                    printf("%i: %i,%i -> %i,%i\n",a,j,i,jj,ii);
                     if(track2[jj][ii]>0) //collision
                     {
-                        printf("Part 1: %i,%i\n",jj,ii);
+                        printf("Part 1: %i,%i\n(tick: %i)\n",jj,ii,tick);
                         return 0;
                     }
                     else
@@ -165,7 +165,7 @@ int main(void)
                             case('+'):
                                 switch(cart[a][2])
                                 {
-                                    case(1): //straight on
+                                    case(1): //straight on, just update next switch direction
                                         cart[a][2]=2;
                                         break;
                                     case(0): //turn left
@@ -179,16 +179,18 @@ int main(void)
                                                 cart[a][0]=0;
                                                 cart[a][1]=-1;
                                                 break;
-                                        }
-                                        switch(cart[a][1])
-                                        {
-                                            case(-1): //going up, switch to left
-                                                cart[a][0]=-1;
-                                                cart[a][1]=0;
-                                                break;
-                                            case(1): //going down, switch to right
-                                                cart[a][0]=1;
-                                                cart[a][1]=0;
+                                            case(0): //neither of the above
+                                                switch(cart[a][1])
+                                                {
+                                                    case(-1): //going up, switch to left
+                                                        cart[a][0]=-1;
+                                                        cart[a][1]=0;
+                                                        break;
+                                                    case(1): //going down, switch to right
+                                                        cart[a][0]=1;
+                                                        cart[a][1]=0;
+                                                        break;
+                                                }
                                                 break;
                                         }
                                         cart[a][2]=1;
@@ -204,16 +206,18 @@ int main(void)
                                                 cart[a][0]=0;
                                                 cart[a][1]=1;
                                                 break;
-                                        }
-                                        switch(cart[a][1])
-                                        {
-                                            case(-1): //going up, switch to right
-                                                cart[a][0]=1;
-                                                cart[a][1]=0;
-                                                break;
-                                            case(1): //going down, switch to left
-                                                cart[a][0]=-1;
-                                                cart[a][1]=0;
+                                            case(0): //neither of the above
+                                                switch(cart[a][1])
+                                                {
+                                                    case(-1): //going up, switch to right
+                                                        cart[a][0]=1;
+                                                        cart[a][1]=0;
+                                                        break;
+                                                    case(1): //going down, switch to left
+                                                        cart[a][0]=-1;
+                                                        cart[a][1]=0;
+                                                        break;
+                                                }
                                                 break;
                                         }
                                         cart[a][2]=0;
