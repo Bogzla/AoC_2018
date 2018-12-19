@@ -1,0 +1,47 @@
+Once setup, slips into loop of 3,4,5,7,8,9,10,1
+
+0,1,2,3,4,5
+A,B,C,D,E,ip
+
+E=10551293
+
+2 loops, incrementing registers B & C, and adding C value to A when it is a factor.
+Thus, A will be the sum of factors of 10551293 when it completes.
+
+
+00 addi 5 16 5 ip=16 // GOTO 17
+01 seti 1 1 2
+02 seti 1 8 1 B=1                                                  __
+03 mulr 2 1 3 D=B*C GOTO 4                                          |
+04 eqrr 3 4 3 if D==E, D=1 GOTO 5 \ if D==E GOTO 7 ELSE GOTO 6      |--When B*C == 10551293, add C to A // finding factors
+05 addr 3 5 5 ip =+ D GOTO 6 or 7 /                                 |
+06 addi 5 1 5 GOTO 8                                                |
+07 addr 2 0 0 A += C GOTO 8                                       __|
+08 addi 1 1 1 B += 1 GOTO 9                                       __Increment B
+09 gtrr 1 4 3 if B>E, D=1 GOTO 10   \ if B>E GOTO 12 ELSE GOTO 11   |When B > 10551293, increment C, otherwise go back to 3
+10 addr 5 3 5 ip += D GOTO 11 or 12 /                               |
+11 seti 2 6 5 ip = 2 GOTO 3                                         |
+12 addi 2 1 2 C += 1 GOTO 13                                      __|
+13 gtrr 2 4 3 if C>E D=1 GOTO 14     \ if C>E GOTO 16 ELSE GOTO 15  |When C > 10551293, BREAK, otherwise go back to 2 and reset B to 1
+14 addr 3 5 5 ip += D GOTO 15 or 16  /                              |
+15 seti 1 2 5 ip = 1 GOTO 2                                         |
+16 mulr 5 5 5 ip^2 GOTO END             __                        __|
+17 addi 4 2 4                             |
+18 mulr 4 4 4                             |
+19 mulr 5 4 4
+20 muli 4 11 4
+21 addi 3 2 3
+22 mulr 3 5 3
+23 addi 3 13 3
+24 addr 4 3 4
+25 addr 5 0 5
+26 seti 0 8 5                        This is all setup
+27 setr 5 5 3
+28 mulr 3 5 3
+29 addr 5 3 3
+30 mulr 5 3 3
+31 muli 3 14 3
+32 mulr 3 5 3
+33 addr 4 3 4
+34 seti 0 9 0                             |
+35 seti 0 9 5                           __|
