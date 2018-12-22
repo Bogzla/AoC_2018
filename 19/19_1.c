@@ -67,7 +67,7 @@ void bori(int Reg[], int a, int b, int c)
 
 void setr(int Reg[], int a, int b, int c)
 {
-    Reg[c] = Reg[b];
+    Reg[c] = Reg[a];
 }
 
 void seti(int Reg[],  int a, int b, int c)
